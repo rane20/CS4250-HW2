@@ -11,11 +11,10 @@ def extract_clean_text(html_path):
         return soup.get_text(separator=" ", strip=True)
 
 def tokenize(text):
-    # Lowercase, remove non-alphanumeric, and split
     return re.findall(r'\b\w+\b', text.lower())
 
 def build_inverted_index(base_repo_path="repository"):
-    inverted_index = defaultdict(set)  # term + set of filenames
+    inverted_index = defaultdict(set)  
 
     for crawler_folder in os.listdir(base_repo_path):
         domain_path = os.path.join(base_repo_path, crawler_folder)
