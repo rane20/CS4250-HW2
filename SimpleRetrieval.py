@@ -1,5 +1,6 @@
 # Part2: Simple Retrieval 
 import json
+import re
 
 # Load the inverted index json file
 def load_inverted_index(file_path="inverted_index.json"):
@@ -8,7 +9,6 @@ def load_inverted_index(file_path="inverted_index.json"):
 
 # tokenize and lowercase
 def tokenize_query(query):
-    import re
     return re.findall(r'\b\w+\b', query.lower())
 
 # Boolean AND retrieval
@@ -21,7 +21,7 @@ def boolean_search(query, inverted_index):
     result_sets = []
     for token in tokens:
         if token in inverted_index:
-            result_sets.append(set(inverted_index[token]))
+            result_sets.append(set(t[0] for t in inverted_index[token]))
         else:
             result_sets.append(set())  # No results for this term
 

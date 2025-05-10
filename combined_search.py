@@ -46,7 +46,7 @@ def boolean_search_with_scores(query, inverted_index):
     result_sets = []
     for token in tokens:
         if token in inverted_index:
-            result_sets.append(set(inverted_index[token]))
+            result_sets.append(set(t[0] for t in inverted_index[token]))
         else:
             result_sets.append(set())  # Token not found
 

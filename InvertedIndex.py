@@ -14,7 +14,7 @@ def tokenize(text):
     return re.findall(r'\b\w+\b', text.lower())
 
 def build_inverted_index(base_repo_path="repository"):
-    inverted_index = defaultdict(set)  
+    inverted_index = defaultdict()  
 
     for crawler_folder in os.listdir(base_repo_path):
         domain_path = os.path.join(base_repo_path, crawler_folder)
@@ -24,8 +24,10 @@ def build_inverted_index(base_repo_path="repository"):
                     file_path = os.path.join(domain_path, filename)
                     text = extract_clean_text(file_path)
                     tokens = tokenize(text)
-                    for token in tokens:
-                        inverted_index[token].add(f"{crawler_folder}/{filename}") #returns page and which domain it's from 
+                    for token in set(tokens):
+                        if token not in inverted_index:
+                            inverted_index[token] = []
+                        inverted_index[token].append([f"{crawler_folder}/{filename}", tokens.count(token)]) #returns page and which domain it's from 
 
     inverted_index = {term: sorted(list(files)) for term, files in inverted_index.items()}
 
